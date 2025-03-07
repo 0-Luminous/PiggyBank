@@ -1,39 +1,9 @@
-//
-//  PiggyBankApp.swift
-//  PiggyBank
-//
-//  Created by Yan on 7/3/25.
-//
-
+import Foundation
 import SwiftUI
 
-@main
-struct PiggyBankApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
-    }
-}
+// Import Stock model
+@_exported import struct PiggyBank.Stock
 
-// MARK: - Models
-struct Stock: Identifiable {
-    let id = UUID()
-    let symbol: String
-    let name: String
-    let price: Double
-    let change: Double
-    
-    var changePercentage: String {
-        return String(format: "%.1f%%", change)
-    }
-    
-    var formattedPrice: String {
-        return String(format: "%.0f $", price)
-    }
-}
-
-// MARK: - ViewModels
 class PortfolioViewModel: ObservableObject {
     @Published var stocks: [Stock] = []
     @Published var totalValue: Double = 0
@@ -57,4 +27,4 @@ class PortfolioViewModel: ObservableObject {
     private func calculateTotalValue() {
         totalValue = stocks.reduce(0) { $0 + $1.price }
     }
-}
+} 
