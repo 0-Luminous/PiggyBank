@@ -5,22 +5,24 @@ struct ContentView: View {
         TabView {
             NavigationStack {
                 VStack(alignment: .leading, spacing: 20) {
+                    
                     Text("Home")
-                        .font(.system(size: 34, weight: .bold))
+                        .font(.nunitoSans(32))
                         .padding(.horizontal, 20)
-                        .padding(.top, 60)
+                        .padding(.top, 10)
                     
                     // Wallet Section
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
                             Text("Wallet")
+                                .font(.nunitoSans(16))
                                 .foregroundColor(.gray)
                             Spacer()
-                            Image(systemName: "pencil")
+                            Image("editPen")
                                 .foregroundColor(.gray)
                         }
                         Text("15 000 $")
-                            .font(.system(size: 34, weight: .bold))
+                            .font(.nunitoSansBold(32))
                         
                         Divider()
                             .background(Color.gray.opacity(0.3))
@@ -31,7 +33,8 @@ struct ContentView: View {
                     // Add shares section
                     VStack(spacing: 16) {
                         Text("Add shares")
-                            .foregroundColor(.gray)
+                            .font(.nunitoSans(16))
+                            .foregroundColor(.white)
                         
                         Button(action: {
                             // Действие для добавления акций
@@ -45,7 +48,7 @@ struct ContentView: View {
                         }
                     }
                     .frame(maxWidth: .infinity)
-                    .padding(.top, 40)
+                    .padding(.top, 133)
                     
                     Spacer()
                 }
@@ -55,28 +58,23 @@ struct ContentView: View {
                 Image("Home")
                 Text("Home")
             }
-            .toolbarBackground(.visible, for: .tabBar)
-            .toolbarBackground(Color(red: 0.067, green: 0.067, blue: 0.067), for: .tabBar)
             
-            Text("Profit View")
+            ProfitView()
                 .tabItem {
                     Image("arrow-growth")
                     Text("Profit")
                 }
-            
-            Text("Quotes View")
+            QuotesView()
                 .tabItem {
                     Image("Message1")
                     Text("Quotes")
                 }
-            
-            Text("Bank View")
+            BankView()
                 .tabItem {
                     Image("piggyBank")
                     Text("Bank")
                 }
-            
-            Text("Settings View")
+            SettingsView()
                 .tabItem {
                     Image("equalizer")
                     Text("Settings")
@@ -84,5 +82,5 @@ struct ContentView: View {
         }
         .tint(.white)
         .preferredColorScheme(.dark)
-    }
-} 
+    } 
+}

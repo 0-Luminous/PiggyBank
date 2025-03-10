@@ -57,7 +57,7 @@ struct ProfitView: View {
             }
         }
         .padding()
-        .background(Color.black)
+        .background(Color(red: 0.145, green: 0.129, blue: 0.129))
     }
 }
 

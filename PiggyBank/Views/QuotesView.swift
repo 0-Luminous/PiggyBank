@@ -86,7 +86,7 @@ struct QuoteCard: View {
             }
         }
         .padding()
-        .background(Color.black.opacity(0.3))
+        .background(Color(red: 0.145, green: 0.129, blue: 0.129))
         .cornerRadius(12)
     }
 } 
