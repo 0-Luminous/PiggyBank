@@ -29,8 +29,18 @@
 		2CB765B32D7B18AF0081823E /* PiggyBankUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PiggyBankUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		2C59E3532D7EDA61007F6206 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 2CB765932D7B18AC0081823E /* PiggyBank */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		2CB765962D7B18AC0081823E /* PiggyBank */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PiggyBank; sourceTree = "<group>"; };
+		2CB765962D7B18AC0081823E /* PiggyBank */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (2C59E3532D7EDA61007F6206 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PiggyBank; sourceTree = "<group>"; };
 		2CB765AC2D7B18AF0081823E /* PiggyBankTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PiggyBankTests; sourceTree = "<group>"; };
 		2CB765B62D7B18AF0081823E /* PiggyBankUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PiggyBankUITests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -387,6 +397,7 @@
 				DEVELOPMENT_TEAM = 4JCS7KTRQH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PiggyBank/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -416,6 +427,7 @@
 				DEVELOPMENT_TEAM = 4JCS7KTRQH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PiggyBank/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

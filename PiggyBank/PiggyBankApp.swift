@@ -9,9 +9,15 @@ import SwiftUI
 
 @main
 struct PiggyBankApp: App {
+    @AppStorage("isOnboardingCompleted") private var isOnboardingCompleted = false
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if isOnboardingCompleted {
+                ContentView()
+            } else {
+                LoadingView()
+            }
         }
     }
 }
