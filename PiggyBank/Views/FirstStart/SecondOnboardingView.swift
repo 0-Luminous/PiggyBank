@@ -68,7 +68,7 @@ struct SecondOnboardingView: View {
                 .ignoresSafeArea()
         )
         .fullScreenCover(isPresented: $showContentView) {
-            ContentView()
+            CustomTabView()
         }
     }
 }

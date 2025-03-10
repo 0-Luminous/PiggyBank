@@ -6,6 +6,10 @@
 	objectVersion = 70;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		2C59E3902D7F7950007F6206 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C59E38F2D7F7950007F6206 /* UIKit.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		2CB765AA2D7B18AF0081823E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2C59E38F2D7F7950007F6206 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2CB765942D7B18AC0081823E /* PiggyBank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PiggyBank.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CB765A92D7B18AF0081823E /* PiggyBankTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PiggyBankTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CB765B32D7B18AF0081823E /* PiggyBankUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PiggyBankUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -50,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C59E3902D7F7950007F6206 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,12 +76,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C59E38E2D7F794F007F6206 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2C59E38F2D7F7950007F6206 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		2CB7658B2D7B18AC0081823E = {
 			isa = PBXGroup;
 			children = (
 				2CB765962D7B18AC0081823E /* PiggyBank */,
 				2CB765AC2D7B18AF0081823E /* PiggyBankTests */,
 				2CB765B62D7B18AF0081823E /* PiggyBankUITests */,
+				2C59E38E2D7F794F007F6206 /* Frameworks */,
 				2CB765952D7B18AC0081823E /* Products */,
 			);
 			sourceTree = "<group>";

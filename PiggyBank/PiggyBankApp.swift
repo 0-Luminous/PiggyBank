@@ -14,7 +14,7 @@ struct PiggyBankApp: App {
     var body: some Scene {
         WindowGroup {
             if isOnboardingCompleted {
-                ContentView()
+                CustomTabView()
             } else {
                 LoadingView()
             }
