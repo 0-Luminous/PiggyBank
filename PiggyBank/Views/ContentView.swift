@@ -21,8 +21,13 @@ struct ContentView: View {
                 VStack(spacing: 20) {
                     // Wallet Section
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Wallet")
-                            .foregroundColor(.gray)
+                        HStack {
+                            Text("Wallet")
+                                .foregroundColor(.gray)
+                            Spacer()
+                            Image(systemName: "pencil")
+                                .foregroundColor(.gray)
+                        }
                         Text("\(Int(viewModel.totalValue)) $")
                             .font(.system(size: 34, weight: .bold))
                     }
@@ -31,8 +36,13 @@ struct ContentView: View {
                     
                     // Shares Section
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Shares")
-                            .foregroundColor(.gray)
+                        HStack {
+                            Text("Shares")
+                                .foregroundColor(.gray)
+                            Spacer()
+                            Image(systemName: "pencil")
+                                .foregroundColor(.gray)
+                        }
                         
                         // Search Bar
                         HStack {
@@ -41,8 +51,8 @@ struct ContentView: View {
                             TextField("Search", text: $searchText)
                         }
                         .padding(10)
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(10)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(8)
                     }
                     .padding(.horizontal)
                     
@@ -57,34 +67,35 @@ struct ContentView: View {
                     .listStyle(PlainListStyle())
                 }
                 .navigationBarHidden(true)
-                .background(Color(uiColor: .systemBackground))
+                .background(Color.black)
             }
             .tabItem {
-                Image(systemName: "house.fill")
+                Image(systemName: "house")
                 Text("Home")
             }
             
-            Color.clear
+            ProfitView()
                 .tabItem {
                     Image(systemName: "chart.line.uptrend.xyaxis")
                     Text("Profit")
                 }
-            Color.clear
+            QuotesView()
                 .tabItem {
                     Image(systemName: "quote.bubble")
                     Text("Quotes")
                 }
-            Color.clear
+            BankView()
                 .tabItem {
                     Image(systemName: "building.columns")
                     Text("Bank")
                 }
-            Color.clear
+            SettingsView()
                 .tabItem {
                     Image(systemName: "slider.horizontal.3")
                     Text("Settings")
                 }
         }
-        .tint(.primary)
+        .tint(.white)
+        .preferredColorScheme(.dark)
     }
 } 

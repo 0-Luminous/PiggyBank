@@ -9,28 +9,26 @@ struct StockRowView: View {
             HStack(spacing: 12) {
                 Image(stock.symbol.lowercased())
                     .resizable()
-                    .frame(width: 40, height: 40)
-                    .cornerRadius(8)
-                    .background(Color.gray.opacity(0.1))
+                    .frame(width: 32, height: 32)
+                    .cornerRadius(16)
                 
-                VStack(alignment: .leading) {
-                    Text(stock.name)
-                        .font(.headline)
-                }
+                Text(stock.name)
+                    .font(.system(size: 16))
             }
             
             Spacer()
             
             // Price and Change
-            VStack(alignment: .trailing) {
+            VStack(alignment: .trailing, spacing: 4) {
                 Text(stock.formattedPrice)
-                    .font(.headline)
+                    .font(.system(size: 16, weight: .medium))
                 Text("+" + stock.changePercentage)
                     .foregroundColor(.green)
-                    .font(.subheadline)
+                    .font(.system(size: 14))
             }
         }
-        .padding(.vertical, 4)
+        .padding(.horizontal)
+        .padding(.vertical, 8)
     }
 }
 
