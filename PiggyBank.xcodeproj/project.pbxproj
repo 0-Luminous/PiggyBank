@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXContainerItemProxy section */
@@ -30,21 +30,9 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		2CB765962D7B18AC0081823E /* PiggyBank */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = PiggyBank;
-			sourceTree = "<group>";
-		};
-		2CB765AC2D7B18AF0081823E /* PiggyBankTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = PiggyBankTests;
-			sourceTree = "<group>";
-		};
-		2CB765B62D7B18AF0081823E /* PiggyBankUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = PiggyBankUITests;
-			sourceTree = "<group>";
-		};
+		2CB765962D7B18AC0081823E /* PiggyBank */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PiggyBank; sourceTree = "<group>"; };
+		2CB765AC2D7B18AF0081823E /* PiggyBankTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PiggyBankTests; sourceTree = "<group>"; };
+		2CB765B62D7B18AF0081823E /* PiggyBankUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PiggyBankUITests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +175,7 @@
 				};
 			};
 			buildConfigurationList = 2CB7658F2D7B18AC0081823E /* Build configuration list for PBXProject "PiggyBank" */;
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -195,7 +184,6 @@
 			);
 			mainGroup = 2CB7658B2D7B18AC0081823E;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			productRefGroup = 2CB765952D7B18AC0081823E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

@@ -4,6 +4,17 @@ struct ContentView: View {
     @StateObject private var viewModel = PortfolioViewModel()
     @State private var searchText = ""
     
+    var filteredStocks: [Stock] {
+        if searchText.isEmpty {
+            return viewModel.stocks
+        } else {
+            return viewModel.stocks.filter { stock in
+                stock.name.lowercased().contains(searchText.lowercased()) ||
+                stock.symbol.lowercased().contains(searchText.lowercased())
+            }
+        }
+    }
+    
     var body: some View {
         TabView {
             NavigationStack {
@@ -37,13 +48,16 @@ struct ContentView: View {
                     
                     // Stocks List
                     List {
-                        ForEach(viewModel.stocks) { stock in
+                        ForEach(filteredStocks) { stock in
                             StockRowView(stock: stock)
+                                .listRowInsets(EdgeInsets())
+                                .listRowBackground(Color.clear)
                         }
                     }
                     .listStyle(PlainListStyle())
                 }
                 .navigationBarHidden(true)
+                .background(Color(uiColor: .systemBackground))
             }
             .tabItem {
                 Image(systemName: "house.fill")

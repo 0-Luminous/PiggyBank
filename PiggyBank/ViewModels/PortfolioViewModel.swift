@@ -1,9 +1,6 @@
 import Foundation
 import SwiftUI
 
-// Import Stock model
-@_exported import struct PiggyBank.Stock
-
 class PortfolioViewModel: ObservableObject {
     @Published var stocks: [Stock] = []
     @Published var totalValue: Double = 0
