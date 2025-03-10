@@ -1,24 +1,15 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var viewModel = PortfolioViewModel()
-    @State private var searchText = ""
-    
-    var filteredStocks: [Stock] {
-        if searchText.isEmpty {
-            return viewModel.stocks
-        } else {
-            return viewModel.stocks.filter { stock in
-                stock.name.lowercased().contains(searchText.lowercased()) ||
-                stock.symbol.lowercased().contains(searchText.lowercased())
-            }
-        }
-    }
-    
     var body: some View {
         TabView {
             NavigationStack {
-                VStack(spacing: 20) {
+                VStack(alignment: .leading, spacing: 20) {
+                    Text("Home")
+                        .font(.system(size: 34, weight: .bold))
+                        .padding(.horizontal, 20)
+                        .padding(.top, 60)
+                    
                     // Wallet Section
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
@@ -28,70 +19,66 @@ struct ContentView: View {
                             Image(systemName: "pencil")
                                 .foregroundColor(.gray)
                         }
-                        Text("\(Int(viewModel.totalValue)) $")
+                        Text("15 000 $")
                             .font(.system(size: 34, weight: .bold))
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding()
-                    
-                    // Shares Section
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack {
-                            Text("Shares")
-                                .foregroundColor(.gray)
-                            Spacer()
-                            Image(systemName: "pencil")
-                                .foregroundColor(.gray)
-                        }
                         
-                        // Search Bar
-                        HStack {
-                            Image(systemName: "magnifyingglass")
-                                .foregroundColor(.gray)
-                            TextField("Search", text: $searchText)
-                        }
-                        .padding(10)
-                        .background(Color(.systemGray6))
-                        .cornerRadius(8)
+                        Divider()
+                            .background(Color.gray.opacity(0.3))
+                            .padding(.top, 8)
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, 20)
                     
-                    // Stocks List
-                    List {
-                        ForEach(filteredStocks) { stock in
-                            StockRowView(stock: stock)
-                                .listRowInsets(EdgeInsets())
-                                .listRowBackground(Color.clear)
+                    // Add shares section
+                    VStack(spacing: 16) {
+                        Text("Add shares")
+                            .foregroundColor(.gray)
+                        
+                        Button(action: {
+                            // Действие для добавления акций
+                        }) {
+                            Image(systemName: "plus")
+                                .font(.title2)
+                                .foregroundColor(.black)
+                                .frame(width: 60, height: 60)
+                                .background(Color.white)
+                                .clipShape(Circle())
                         }
                     }
-                    .listStyle(PlainListStyle())
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 40)
+                    
+                    Spacer()
                 }
-                .navigationBarHidden(true)
-                .background(Color.black)
+                .background(Color(red: 0.145, green: 0.129, blue: 0.129))
             }
             .tabItem {
-                Image(systemName: "house")
+                Image("Home")
                 Text("Home")
             }
+            .toolbarBackground(.visible, for: .tabBar)
+            .toolbarBackground(Color(red: 0.067, green: 0.067, blue: 0.067), for: .tabBar)
             
-            ProfitView()
+            Text("Profit View")
                 .tabItem {
-                    Image(systemName: "chart.line.uptrend.xyaxis")
+                    Image("arrow-growth")
                     Text("Profit")
                 }
-            QuotesView()
+            
+            Text("Quotes View")
                 .tabItem {
-                    Image(systemName: "quote.bubble")
+                    Image("Message1")
                     Text("Quotes")
                 }
-            BankView()
+            
+            Text("Bank View")
                 .tabItem {
-                    Image(systemName: "building.columns")
+                    Image("piggyBank")
                     Text("Bank")
                 }
-            SettingsView()
+            
+            Text("Settings View")
                 .tabItem {
-                    Image(systemName: "slider.horizontal.3")
+                    Image("equalizer")
                     Text("Settings")
                 }
         }
