@@ -10,11 +10,14 @@ import SwiftUI
 @main
 struct PiggyBankApp: App {
     @AppStorage("isOnboardingCompleted") private var isOnboardingCompleted = false
-    
+    let persistenceController = PersistenceController.shared
+
     var body: some Scene {
         WindowGroup {
             if isOnboardingCompleted {
                 CustomTabView()
+                    .environment(
+                        \.managedObjectContext, persistenceController.container.viewContext)
             } else {
                 LoadingView()
             }

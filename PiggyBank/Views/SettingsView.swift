@@ -3,12 +3,21 @@ import SwiftUI
 struct SettingsView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 24) {
-            Text("Settings")
-                .font(.largeTitle)
-                .foregroundColor(.white)
-                .padding(.horizontal)
-                .padding(.top)
-            
+            VStack {
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color(red: 0.09, green: 0.078, blue: 0.086))
+                    .frame(height: 120)
+                    .overlay(
+                        Text("Settings")
+                            .font(.nunitoSans(32))
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.leading, 16)
+                            .padding(.top, 40)
+                    )
+            }
+            .ignoresSafeArea()
+
             VStack(spacing: 0) {
                 // Terms and conditions
                 NavigationLink {
@@ -17,10 +26,10 @@ struct SettingsView: View {
                 } label: {
                     SettingsRow(title: "Terms and conditions")
                 }
-                
+
                 Divider()
                     .background(Color.gray.opacity(0.3))
-                
+
                 // Policy privacy
                 NavigationLink {
                     Text("Policy privacy")
@@ -28,10 +37,10 @@ struct SettingsView: View {
                 } label: {
                     SettingsRow(title: "Policy privacy")
                 }
-                
+
                 Divider()
                     .background(Color.gray.opacity(0.3))
-                
+
                 // Feedback
                 NavigationLink {
                     Text("Feedback")
@@ -39,10 +48,10 @@ struct SettingsView: View {
                 } label: {
                     SettingsRow(title: "Feedback")
                 }
-                
+
                 Divider()
                     .background(Color.gray.opacity(0.3))
-                
+
                 // Rate app
                 NavigationLink {
                     Text("Rate app")
@@ -54,7 +63,7 @@ struct SettingsView: View {
             .background(Color.black.opacity(0.3))
             .cornerRadius(12)
             .padding(.horizontal)
-            
+
             Spacer()
         }
         .background(Color(red: 0.145, green: 0.129, blue: 0.129))
@@ -63,7 +72,7 @@ struct SettingsView: View {
 
 struct SettingsRow: View {
     let title: String
-    
+
     var body: some View {
         HStack {
             Text(title)
@@ -74,4 +83,4 @@ struct SettingsRow: View {
         }
         .padding()
     }
-} 
+}
