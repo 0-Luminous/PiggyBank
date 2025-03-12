@@ -2,7 +2,8 @@ import SwiftUI
 
 struct SettingsView: View {
     var body: some View {
-        VStack(alignment: .leading, spacing: 24) {
+        ZStack(alignment: .top) {
+            // Заголовок
             VStack {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color(red: 0.09, green: 0.078, blue: 0.086))
@@ -15,6 +16,7 @@ struct SettingsView: View {
                             .padding(.leading, 16)
                             .padding(.top, 50)
                     )
+                Spacer()
             }
             .ignoresSafeArea()
 
@@ -63,6 +65,7 @@ struct SettingsView: View {
                     .background(Color.gray.opacity(0.3))
             }
             .padding(.horizontal)
+            .padding(.top, 80)
             Spacer()
         }
         .background(Color(red: 0.145, green: 0.129, blue: 0.129))

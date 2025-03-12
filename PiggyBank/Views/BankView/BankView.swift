@@ -42,7 +42,6 @@ struct BankView: View {
                     .foregroundColor(.gray)
                     .font(.nunitoSans(16))
                     .padding(.horizontal)
-
                 VStack(spacing: 0) {
                     ForEach(Array(transactions.enumerated()), id: \.element.id) {
                         index, transaction in

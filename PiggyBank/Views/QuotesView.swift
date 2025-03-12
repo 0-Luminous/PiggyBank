@@ -8,13 +8,16 @@ struct Quote: Identifiable {
 }
 
 struct QuotesView: View {
-    @State private var quotes = [
+    @State private var todayQuotes = [
         Quote(
             text:
                 "When you have money in your hands, only you forget who you are. But when you don't have money in your hands, everyone forgets who you are. That's life.",
             author: "Bill Gates",
             isSaved: false
-        ),
+        )
+    ]
+
+    @State private var savedQuotes = [
         Quote(
             text:
                 "The key to success in business is to determine where the world is going and get there first",
@@ -35,7 +38,7 @@ struct QuotesView: View {
     ]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
+        ZStack(alignment: .top) {
             // Заголовок
             VStack {
                 RoundedRectangle(cornerRadius: 20)
@@ -49,28 +52,45 @@ struct QuotesView: View {
                             .padding(.leading, 16)
                             .padding(.top, 50)
                     )
+                Spacer()
             }
             .ignoresSafeArea()
+            VStack {
+                // Список цитат
+                ScrollView {
+                    VStack(spacing: 24) {
+                        QuoteTitle(title: "Today")
+                        ForEach($todayQuotes) { $quote in
+                            QuoteCard(quote: $quote)
+                        }
 
-            // Заголовок Today
-            Text("Today")
-                .font(.nunitoSans(16))
-                .foregroundColor(.gray)
-                .padding(.horizontal)
-            // Список цитат
-            ScrollView {
-                VStack(spacing: 24) {
-                    ForEach($quotes) { $quote in
-                        QuoteCard(quote: $quote)
+                        QuoteTitle(title: "Saved")
+                        ForEach($savedQuotes) { $quote in
+                            QuoteCard(quote: $quote)
+                        }
                     }
                 }
-                .padding(.horizontal)
             }
+            .padding(.top, 132)
+            .ignoresSafeArea()
         }
         .background(Color(red: 0.145, green: 0.129, blue: 0.129))
     }
 }
 
+struct QuoteTitle: View {
+    let title: String
+
+    var body: some View {
+        HStack {
+            Text(title)
+                .font(.nunitoSans(16))
+                .foregroundColor(.gray)
+                .padding(.leading, 16)
+            Spacer()
+        }
+    }
+}
 struct QuoteCard: View {
     @Binding var quote: Quote
 

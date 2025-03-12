@@ -14,6 +14,7 @@ struct ProfitView: View {
 
     var body: some View {
         ZStack(alignment: .top) {
+            // Заголовок
             VStack {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color(red: 0.09, green: 0.078, blue: 0.086))
