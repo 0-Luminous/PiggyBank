@@ -13,7 +13,7 @@ struct ProfitView: View {
     ]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
+        ZStack(alignment: .top) {
             VStack {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color(red: 0.09, green: 0.078, blue: 0.086))
@@ -26,6 +26,7 @@ struct ProfitView: View {
                             .padding(.leading, 16)
                             .padding(.top, 50)
                     )
+                Spacer()
             }
             .ignoresSafeArea()
             VStack {
@@ -66,7 +67,6 @@ struct ProfitView: View {
                     }
                 }
 
-                Spacer()
                 Divider()
                 // Итоговая информация
                 VStack(spacing: 12) {
@@ -77,9 +77,10 @@ struct ProfitView: View {
                 Divider()
             }
             .padding(.horizontal, 16)
-            .padding(.bottom, 146)
-            .background(Color(red: 0.145, green: 0.129, blue: 0.129))
+            .padding(.top, 132)
+            .ignoresSafeArea()
         }
+        .background(Color(red: 0.145, green: 0.129, blue: 0.129))
     }
 }
 
