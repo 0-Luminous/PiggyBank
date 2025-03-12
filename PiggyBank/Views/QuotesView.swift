@@ -47,14 +47,14 @@ struct QuotesView: View {
                             .foregroundStyle(.white)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.leading, 16)
-                            .padding(.top, 40)
+                            .padding(.top, 50)
                     )
             }
             .ignoresSafeArea()
 
             // Заголовок Today
             Text("Today")
-                .font(.title3)
+                .font(.nunitoSans(16))
                 .foregroundColor(.gray)
                 .padding(.horizontal)
             // Список цитат
@@ -103,8 +103,9 @@ struct QuoteCard: View {
                         .foregroundColor(quote.isSaved ? .red : .gray)
                 }
             }
+            Divider()
         }
-        .padding()
+        .padding(.horizontal, 16)
         .background(Color(red: 0.145, green: 0.129, blue: 0.129))
         .cornerRadius(12)
     }

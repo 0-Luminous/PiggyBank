@@ -13,7 +13,7 @@ struct SettingsView: View {
                             .foregroundStyle(.white)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.leading, 16)
-                            .padding(.top, 40)
+                            .padding(.top, 50)
                     )
             }
             .ignoresSafeArea()

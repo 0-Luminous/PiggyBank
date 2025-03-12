@@ -32,7 +32,7 @@ struct BankView: View {
                             .foregroundStyle(.white)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.leading, 16)
-                            .padding(.top, 40)
+                            .padding(.top, 50)
                     )
             }
             .ignoresSafeArea()
@@ -40,57 +40,92 @@ struct BankView: View {
             VStack(alignment: .leading, spacing: 16) {
                 Text("Replenishment history")
                     .foregroundColor(.gray)
+                    .font(.nunitoSans(16))
+                    .padding(.horizontal)
 
                 VStack(spacing: 0) {
-                    ForEach(transactions) { transaction in
-                        TransactionRow(date: transaction.date, amount: transaction.amount)
+                    ForEach(Array(transactions.enumerated()), id: \.element.id) {
+                        index, transaction in
+                        TransactionRow(
+                            date: transaction.date,
+                            amount: transaction.amount,
+                            backgroundColor: index % 2 == 0
+                                ? Color(red: 0.282, green: 0.267, blue: 0.267)  // #484444
+                                : Color(red: 0.145, green: 0.129, blue: 0.129)  // #262222
+                        )
                     }
 
                     // Итоговая строка
                     HStack {
                         Text("Total")
                             .foregroundColor(.white)
+                            .font(.nunitoSansBold(14))
+                            .padding(.leading, 16)
                         Spacer()
-                        Text("+ \(totalAmount) $")
+                        Text("\(totalAmount) $")
                             .foregroundColor(.white)
+                            .padding(.trailing, 16)
                     }
-                    .padding()
-                    .background(Color.green.opacity(0.3))
-                    .cornerRadius(8)
+                    .padding(.top, 8)
+                    .padding(.bottom, 8)
+                    .background(Color(red: 0.29, green: 0.439, blue: 0.176))
                 }
+                .background(Color.black.opacity(0.3))
+                .cornerRadius(16)
+                .padding(.horizontal)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(Color(red: 0.282, green: 0.267, blue: 0.267), lineWidth: 1)
+                        .padding(.horizontal)
+                )
             }
-            .padding(.horizontal)
 
             // Настройки копилки
             VStack(alignment: .leading, spacing: 16) {
                 Text("Piggy bank settings")
                     .foregroundColor(.gray)
+                    .font(.nunitoSans(16))
                     .padding(.horizontal)
 
                 HStack(spacing: 16) {
                     // Минимальная сумма
-                    VStack {
+                    HStack {
                         Text("Min")
-                            .foregroundColor(.gray)
-                        Text("\(minAmount) $")
+                            .font(.nunitoSans(16))
                             .foregroundColor(.white)
+                            .padding(.leading, 16)
+
+                        Text("\(minAmount) $")
+                            .foregroundColor(.gray)
+                            .padding(.trailing, 16)
                     }
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.black.opacity(0.3))
-                    .cornerRadius(12)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(Color(red: 0.282, green: 0.267, blue: 0.267), lineWidth: 1)
+                            .padding(.horizontal)
+                            .padding(.leading, 17)
+                    )
 
                     // Максимальная сумма
-                    VStack {
+                    HStack {
                         Text("Max")
-                            .foregroundColor(.gray)
-                        Text("\(maxAmount) $")
+                            .font(.nunitoSans(16))
                             .foregroundColor(.white)
+                            .padding(.leading, 16)
+                        Text("\(maxAmount) $")
+                            .foregroundColor(.gray)
+                            .padding(.trailing, 16)
                     }
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.black.opacity(0.3))
-                    .cornerRadius(12)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(Color(red: 0.282, green: 0.267, blue: 0.267), lineWidth: 1)
+                            .padding(.trailing, 17)
+
+                    )
                 }
                 .padding(.horizontal)
 
@@ -103,7 +138,7 @@ struct BankView: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(Color.white)
-                        .cornerRadius(12)
+                        .cornerRadius(16)
                 }
                 .padding(.horizontal)
             }
@@ -135,17 +170,21 @@ struct BankView: View {
 struct TransactionRow: View {
     let date: String
     let amount: Int
+    let backgroundColor: Color
 
     var body: some View {
         HStack {
             Text(date)
+                .font(.nunitoSans(14))
                 .foregroundColor(.white)
+                .padding(.leading, 16)
             Spacer()
             Text("+ \(amount) $")
                 .foregroundColor(.white)
+                .padding(.trailing, 16)
         }
-        .padding()
-        .background(Color.black.opacity(0.3))
-        .cornerRadius(8)
+        .padding(.top, 8)
+        .padding(.bottom, 8)
+        .background(backgroundColor)
     }
 }

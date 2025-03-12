@@ -23,7 +23,7 @@ struct HomeView: View {
                                 .foregroundStyle(.white)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.leading, 20)
-                                .padding(.top, 40)
+                                .padding(.top, 50)
                         )
                     Spacer()
                 }

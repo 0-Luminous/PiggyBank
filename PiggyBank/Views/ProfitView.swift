@@ -24,63 +24,67 @@ struct ProfitView: View {
                             .foregroundStyle(.white)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.leading, 16)
-                            .padding(.top, 40)
+                            .padding(.top, 50)
                     )
             }
             .ignoresSafeArea()
-
-            // Заголовок
-            HStack {
-                Text("Portfolio")
-                    .font(.title3)
-                    .foregroundColor(.gray)
-                    .padding(.leading, 16)
-                Spacer()
-                NavigationLink {
-                    WalletView()
-                        .navigationBarBackButtonHidden(true)
-                } label: {
-                    Image("editPen")
-                        .foregroundStyle(.gray)
-                }
-                .padding(.trailing, 16)
-            }
-
-            // Периоды
-            HStack {
-                ForEach(0..<periods.count, id: \.self) { index in
-                    Button(action: {
-                        selectedPeriod = index
-                    }) {
-                        Text(periods[index])
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(
-                                selectedPeriod == index ? Color.white.opacity(0.1) : Color.clear
-                            )
-                            .cornerRadius(8)
+            VStack {
+                // Заголовок
+                HStack {
+                    Text("Portfolio")
+                        .font(.nunitoSans(16))
+                        .foregroundColor(.gray)
+                        .padding(.leading, 16)
+                    Spacer()
+                    NavigationLink {
+                        WalletView()
+                            .navigationBarBackButtonHidden(true)
+                    } label: {
+                        Image("editPen")
+                            .foregroundStyle(.gray)
                     }
-                    .foregroundColor(.white)
+                    .padding(.trailing, 16)
                 }
-            }
 
-            // Список инвестиций
-            VStack(spacing: 16) {
-                ForEach(investments) { investment in
-                    InvestmentRowView(investment: investment)
+                // Периоды
+                HStack {
+                    ForEach(0..<periods.count, id: \.self) { index in
+                        Button(action: {
+                            selectedPeriod = index
+                        }) {
+                            Text(periods[index])
+                                .padding(.vertical, 8)
+                                .padding(.horizontal, 13.25)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.gray, lineWidth: 1)
+                                )
+                        }
+                        .foregroundColor(.white)
+                    }
                 }
-            }
 
-            Spacer()
+                // Список инвестиций
+                VStack(spacing: 16) {
+                    ForEach(investments) { investment in
+                        InvestmentRowView(investment: investment)
+                    }
+                }
 
-            // Итоговая информация
-            VStack(spacing: 12) {
-                ProfitInfoRow(title: "Was spent", value: "$100 000")
-                ProfitInfoRow(title: "Amount after 5 years", value: "$250 000")
-                ProfitInfoRow(title: "My profit", value: "$150 000", isProfit: true)
+                Spacer()
+                Divider()
+                // Итоговая информация
+                VStack(spacing: 12) {
+                    ProfitInfoRow(title: "Was spent", value: "100 000 $")
+                    ProfitInfoRow(title: "Amount after 5 years", value: "250 000 $")
+                    ProfitInfoRow(title: "My profit", value: "150 000 $", isProfit: true)
+                }
+                Divider()
             }
+            .padding(.horizontal, 16)
+            .padding(.bottom, 146)
+            .background(Color(red: 0.145, green: 0.129, blue: 0.129))
         }
-        .background(Color(red: 0.145, green: 0.129, blue: 0.129))
     }
 }
 
@@ -97,9 +101,11 @@ struct InvestmentRowView: View {
         HStack {
             Text(investment.name)
                 .foregroundColor(.white)
+                .font(.nunitoSans(14))
             Spacer()
             Text("\(investment.percentage)%")
                 .foregroundColor(.white)
+                .font(.nunitoSansBold(14))
         }
         .padding(.bottom, 8)
         Rectangle()
@@ -117,10 +123,12 @@ struct ProfitInfoRow: View {
     var body: some View {
         HStack {
             Text(title)
-                .foregroundColor(.gray)
+                .foregroundColor(.white)
+                .font(.nunitoSans(14))
             Spacer()
             Text(value)
                 .foregroundColor(isProfit ? .green : .white)
+                .font(.nunitoSansBold(14))
         }
     }
 }

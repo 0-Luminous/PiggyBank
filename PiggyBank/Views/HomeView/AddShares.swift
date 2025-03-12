@@ -95,7 +95,7 @@ struct AddShares: View {
 
                                 Spacer()
                             }
-                            .padding(.top, 40)
+                            .padding(.top, 50)
                         )
                     Spacer()
                 }
