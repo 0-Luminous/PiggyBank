@@ -34,7 +34,6 @@ struct ProfitView: View {
                     Text("Portfolio")
                         .font(.nunitoSans(16))
                         .foregroundColor(.gray)
-                        .padding(.leading, 16)
                     Spacer()
                     NavigationLink {
                         WalletView()
@@ -61,7 +60,7 @@ struct ProfitView: View {
                 }
 
                 // Список инвестиций
-                VStack(spacing: 16) {
+                VStack {
                     ForEach(investments) { investment in
                         InvestmentRowView(investment: investment)
                     }
@@ -104,12 +103,10 @@ struct InvestmentRowView: View {
                 .foregroundColor(.white)
                 .font(.nunitoSansBold(14))
         }
-        .padding(.bottom, 4)
-
         Capsule()
             .frame(height: 6)
             .frame(width: UIScreen.main.bounds.width - 32)
-            .foregroundColor(Color(red: 0.15, green: 0.15, blue: 0.15))
+            .foregroundColor(Color(red: 0.208, green: 0.2, blue: 0.2))
             .overlay(
                 Capsule()
                     .frame(width: width)
@@ -166,7 +163,8 @@ struct PeriodButton: View {
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
                         .stroke(
-                            isSelected ? Color.white : Color.gray, lineWidth: isSelected ? 2 : 1)
+                            isSelected ? Color.white : Color(red: 0.208, green: 0.2, blue: 0.2),
+                            lineWidth: isSelected ? 2 : 1)
                 )
         }
         .foregroundColor(.white)
