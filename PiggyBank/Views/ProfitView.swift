@@ -43,24 +43,20 @@ struct ProfitView: View {
                         Image("editPen")
                             .foregroundStyle(.gray)
                     }
-                    .padding(.trailing, 16)
                 }
 
                 // Периоды
-                HStack {
+                HStack(spacing: 8) {
                     ForEach(0..<periods.count, id: \.self) { index in
-                        Button(action: {
-                            selectedPeriod = index
-                        }) {
-                            Text(periods[index])
-                                .padding(.vertical, 8)
-                                .padding(.horizontal, 13.25)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .stroke(Color.gray, lineWidth: 1)
-                                )
-                        }
-                        .foregroundColor(.white)
+                        PeriodButton(
+                            text: periods[index],
+                            isSelected: selectedPeriod == index,
+                            action: {
+                                withAnimation {
+                                    selectedPeriod = index
+                                }
+                            }
+                        )
                     }
                 }
 
@@ -96,6 +92,7 @@ struct Investment: Identifiable {
 
 struct InvestmentRowView: View {
     let investment: Investment
+    @State private var width: CGFloat = 0
 
     var body: some View {
         HStack {
@@ -107,11 +104,34 @@ struct InvestmentRowView: View {
                 .foregroundColor(.white)
                 .font(.nunitoSansBold(14))
         }
-        .padding(.bottom, 8)
-        Rectangle()
-            .frame(height: 4)
-            .foregroundColor(.green)
-            .frame(width: CGFloat(investment.percentage) * 3)
+        .padding(.bottom, 4)
+
+        Capsule()
+            .frame(height: 6)
+            .frame(width: UIScreen.main.bounds.width - 32)
+            .foregroundColor(Color(red: 0.15, green: 0.15, blue: 0.15))
+            .overlay(
+                Capsule()
+                    .frame(width: width)
+                    .frame(height: 6)
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [
+                                Color(red: 0.2, green: 0.7, blue: 0.2),
+                                Color(red: 0.15, green: 0.5, blue: 0.15),
+                            ],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    ),
+                alignment: .leading
+            )
+            .padding(.bottom, 8)
+            .onAppear {
+                withAnimation(.easeOut(duration: 1.0)) {
+                    width = (UIScreen.main.bounds.width - 32) * CGFloat(investment.percentage) / 100
+                }
+            }
     }
 }
 
@@ -130,5 +150,26 @@ struct ProfitInfoRow: View {
                 .foregroundColor(isProfit ? .green : .white)
                 .font(.nunitoSansBold(14))
         }
+    }
+}
+
+struct PeriodButton: View {
+    let text: String
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Text(text)
+                .padding(.vertical, 8)
+                .padding(.horizontal, 13.25)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(
+                            isSelected ? Color.white : Color.gray, lineWidth: isSelected ? 2 : 1)
+                )
+        }
+        .foregroundColor(.white)
+        .animation(.easeInOut(duration: 0.2), value: isSelected)
     }
 }
