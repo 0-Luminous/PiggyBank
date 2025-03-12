@@ -59,11 +59,10 @@ struct SettingsView: View {
                 } label: {
                     SettingsRow(title: "Rate app")
                 }
+                Divider()
+                    .background(Color.gray.opacity(0.3))
             }
-            .background(Color.black.opacity(0.3))
-            .cornerRadius(12)
             .padding(.horizontal)
-
             Spacer()
         }
         .background(Color(red: 0.145, green: 0.129, blue: 0.129))
@@ -77,10 +76,12 @@ struct SettingsRow: View {
         HStack {
             Text(title)
                 .foregroundColor(.white)
+                .font(.nunitoSans(16))
             Spacer()
             Image(systemName: "chevron.right")
-                .foregroundColor(.gray)
+                .foregroundColor(.white)
         }
-        .padding()
+        .padding(.top, 12)
+        .padding(.bottom, 12)
     }
 }
