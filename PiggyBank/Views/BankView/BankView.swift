@@ -15,6 +15,7 @@ struct BankView: View {
         Transaction(date: "24.05.2024", amount: 25),
         Transaction(date: "23.05.2024", amount: 10),
     ]
+    @FocusState private var isInputActive: Bool
 
     var totalAmount: Int {
         transactions.reduce(0) { $0 + $1.amount }
@@ -45,17 +46,33 @@ struct BankView: View {
                     .foregroundColor(.gray)
                     .font(.nunitoSans(16))
                     .padding(.horizontal)
+
                 VStack(spacing: 0) {
-                    ForEach(Array(transactions.enumerated()), id: \.element.id) {
-                        index, transaction in
-                        TransactionRow(
-                            date: transaction.date,
-                            amount: transaction.amount,
-                            backgroundColor: index % 2 == 0
-                                ? Color(red: 0.282, green: 0.267, blue: 0.267)  // #484444
-                                : Color(red: 0.145, green: 0.129, blue: 0.129)  // #262222
-                        )
+                    ScrollView(showsIndicators: false) {
+                        ScrollViewReader { scrollProxy in
+                            LazyVStack(spacing: 0) {
+                                ForEach(Array(transactions.enumerated()), id: \.element.id) {
+                                    index, transaction in
+                                    TransactionRow(
+                                        date: transaction.date,
+                                        amount: transaction.amount,
+                                        backgroundColor: index % 2 == 0
+                                            ? Color(red: 0.282, green: 0.267, blue: 0.267)  // #484444
+                                            : Color(red: 0.145, green: 0.129, blue: 0.129)  // #262222
+                                    )
+                                    .id(transaction.id)
+                                }
+                            }
+                            .onChange(of: transactions.count) { _ in
+                                if let lastID = transactions.last?.id {
+                                    withAnimation {
+                                        scrollProxy.scrollTo(lastID, anchor: .bottom)
+                                    }
+                                }
+                            }
+                        }
                     }
+                    .frame(maxHeight: 154)  // Изменено на maxHeight
 
                     // Итоговая строка
                     HStack {
@@ -90,53 +107,74 @@ struct BankView: View {
                     .font(.nunitoSans(16))
                     .padding(.horizontal)
 
-                HStack {
+                HStack(spacing: 16) {
                     // Минимальная сумма
                     HStack {
                         Text("Min")
                             .font(.nunitoSans(16))
                             .foregroundColor(.white)
-                            .padding(.leading, 16)
 
-                        Text("\(minAmount) $")
+                        Spacer()
+
+                        TextField("", text: $minAmount)
+                            .keyboardType(.numberPad)
+                            .multilineTextAlignment(.trailing)
+                            .foregroundStyle(.gray)
+                            .font(.system(size: 16))
+                            .focused($isInputActive)
+
+                        Text("$")
                             .foregroundColor(.gray)
-                            .padding(.trailing, 16)
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding()
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .background(Color(red: 0.145, green: 0.129, blue: 0.129))
+                    .cornerRadius(16)
                     .overlay(
                         RoundedRectangle(cornerRadius: 16)
                             .stroke(Color(red: 0.282, green: 0.267, blue: 0.267), lineWidth: 1)
-                            .padding(.horizontal)
-                            .padding(.leading, 17)
                     )
+                    .frame(maxWidth: .infinity)
 
                     // Максимальная сумма
                     HStack {
                         Text("Max")
                             .font(.nunitoSans(16))
                             .foregroundColor(.white)
-                            .padding(.leading, 16)
-                        Text("\(maxAmount) $")
+
+                        Spacer()
+
+                        TextField("", text: $maxAmount)
+                            .keyboardType(.numberPad)
+                            .multilineTextAlignment(.trailing)
+                            .foregroundStyle(.gray)
+                            .font(.system(size: 16))
+                            .focused($isInputActive)
+
+                        Text("$")
                             .foregroundColor(.gray)
-                            .padding(.trailing, 16)
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding()
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .background(Color(red: 0.145, green: 0.129, blue: 0.129))
+                    .cornerRadius(16)
                     .overlay(
                         RoundedRectangle(cornerRadius: 16)
                             .stroke(Color(red: 0.282, green: 0.267, blue: 0.267), lineWidth: 1)
-                            .padding(.trailing, 17)
-
                     )
+                    .frame(maxWidth: .infinity)
                 }
-                .padding(.horizontal, 17)
+                .padding(.horizontal)
 
-                // Кнопка рандомизации
+                // Кнопка рандомизации/готово
                 Button(action: {
-                    randomizeAmount()
+                    if isInputActive {
+                        isInputActive = false
+                    } else {
+                        randomizeAmount()
+                    }
                 }) {
-                    Text("Randomize")
+                    Text(isInputActive ? "Done" : "Randomize")
                         .foregroundColor(.black)
                         .frame(maxWidth: .infinity)
                         .padding()
