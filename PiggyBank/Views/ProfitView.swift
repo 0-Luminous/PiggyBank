@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ProfitView: View {
     @State private var selectedPeriod = 1  // 1Y по умолчанию
+    @State private var showingAddShares = false  // Добавляем состояние
 
     let periods = ["1M", "1Y", "2Y", "3Y", "4Y", "5Y"]
 
@@ -35,14 +36,36 @@ struct ProfitView: View {
         }
     }
 
-    // Предполагаемая стоимость через 5 лет (используем среднее увеличение на 15% в год)
-    private var amountAfter5Years: Double {
-        totalSpent * pow(1.15, 5)
+    // Добавляем функцию для получения числового значения периода в годах
+    private func getPeriodInYears(_ periodIndex: Int) -> Double {
+        switch periods[periodIndex] {
+        case "1M": return 1.0 / 12.0
+        case "1Y": return 1.0
+        case "2Y": return 2.0
+        case "3Y": return 3.0
+        case "4Y": return 4.0
+        case "5Y": return 5.0
+        default: return 0
+        }
     }
 
-    // Прибыль (разница между будущей и текущей стоимостью)
+    // Получаем текстовое описание периода
+    private var periodDescription: String {
+        switch periods[selectedPeriod] {
+        case "1M": return "month"
+        default: return "years"
+        }
+    }
+
+    // Модифицируем расчет будущей стоимости
+    private var amountAfterPeriod: Double {
+        let years = getPeriodInYears(selectedPeriod)
+        return totalSpent * pow(1.15, years)
+    }
+
+    // Модифицируем расчет прибыли
     private var profit: Double {
-        amountAfter5Years - totalSpent
+        amountAfterPeriod - totalSpent
     }
 
     var body: some View {
@@ -70,9 +93,8 @@ struct ProfitView: View {
                         .font(.nunitoSans(16))
                         .foregroundColor(.gray)
                     Spacer()
-                    NavigationLink {
-                        WalletView()
-                            .navigationBarBackButtonHidden(true)
+                    Button {
+                        showingAddShares = true
                     } label: {
                         Image("editPen")
                             .foregroundStyle(.gray)
@@ -115,8 +137,9 @@ struct ProfitView: View {
                         value: String(format: "%.0f $", totalSpent)
                     )
                     ProfitInfoRow(
-                        title: "Amount after 5 years",
-                        value: String(format: "%.0f $", amountAfter5Years)
+                        title:
+                            "Amount after \(periods[selectedPeriod].dropLast()) \(periodDescription)",  // Динамический заголовок
+                        value: String(format: "%.0f $", amountAfterPeriod)
                     )
                     ProfitInfoRow(
                         title: "My profit",
@@ -131,6 +154,9 @@ struct ProfitView: View {
             .ignoresSafeArea()
         }
         .background(Color(red: 0.145, green: 0.129, blue: 0.129))
+        .fullScreenCover(isPresented: $showingAddShares) {
+            AddShares()
+        }
     }
 }
 

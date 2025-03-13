@@ -43,16 +43,16 @@ struct AddMoneyAlertView: View {
                     }
                 }
             }
+            .background(Color(red: 0.145, green: 0.129, blue: 0.129).opacity(0.46))
             .padding(24)
-            .background(
-                Image("BackgroundFrame")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .ignoresSafeArea()
-            )
             .cornerRadius(24)
             .padding(.horizontal, 16)
         }
+        .background(
+            Image("BackgroundFrame")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .ignoresSafeArea()
+        )
     }
 }
-

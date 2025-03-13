@@ -55,34 +55,10 @@ struct AddShares: View {
     }
 
     private func updateStock(_ stock: StockEntity, quantity: Int) {
-        let currentQuantity = Int(stock.quantity)
-        let newQuantity = Int16(quantity)
-
-        // Если количество увеличивается (покупка акций)
-        if newQuantity > currentQuantity {
-            let stockPrice = stock.price
-            let purchaseQuantity = newQuantity - Int16(currentQuantity)
-            let totalCost = Double(purchaseQuantity) * stockPrice
-
-            // Проверяем, достаточно ли средств
-            if let wallet = wallets.first {
-                if wallet.balance >= totalCost {
-                    // Уменьшаем баланс
-                    wallet.balance -= totalCost
-                    // Обновляем количество акций
-                    stock.quantity = newQuantity
-                    quantities[stock.id!] = newQuantity
-                    persistence.save()
-                    fetchStocks()
-                }
-            }
-        } else {
-            // Если продаем акции, просто обновляем количество
-            stock.quantity = newQuantity
-            quantities[stock.id!] = newQuantity
-            persistence.save()
-            fetchStocks()
-        }
+        stock.quantity = Int16(quantity)
+        quantities[stock.id!] = Int16(quantity)
+        persistence.save()
+        fetchStocks()
     }
 
     private func initializeStocksIfNeeded() {
