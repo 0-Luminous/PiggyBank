@@ -4,13 +4,46 @@ struct ProfitView: View {
     @State private var selectedPeriod = 1  // 1Y по умолчанию
 
     let periods = ["1M", "1Y", "2Y", "3Y", "4Y", "5Y"]
-    let investments = [
-        Investment(name: "Raiffeisen", percentage: 30),
-        Investment(name: "Netflix", percentage: 28),
-        Investment(name: "Amazon", percentage: 18),
-        Investment(name: "Google", percentage: 11),
-        Investment(name: "BMW", percentage: 11),
-    ]
+
+    @FetchRequest(
+        entity: StockEntity.entity(),
+        sortDescriptors: [NSSortDescriptor(keyPath: \StockEntity.name, ascending: true)],
+        predicate: NSPredicate(format: "quantity > 0"),
+        animation: .default
+    ) private var purchasedStocks: FetchedResults<StockEntity>
+
+    // Вычисляем общую стоимость портфеля
+    private var totalPortfolioValue: Double {
+        purchasedStocks.reduce(0) { sum, stock in
+            sum + (stock.price * Double(stock.quantity))
+        }
+    }
+
+    // Преобразуем акции в инвестиции с процентами
+    private var investments: [Investment] {
+        purchasedStocks.map { stock in
+            let stockValue = stock.price * Double(stock.quantity)
+            let percentage = Int(round((stockValue / totalPortfolioValue) * 100))
+            return Investment(name: stock.name ?? "", percentage: percentage)
+        }
+    }
+
+    // Вычисляем потраченную сумму (цена покупки * количество)
+    private var totalSpent: Double {
+        purchasedStocks.reduce(0) { sum, stock in
+            sum + (stock.price * Double(stock.quantity))
+        }
+    }
+
+    // Предполагаемая стоимость через 5 лет (используем среднее увеличение на 15% в год)
+    private var amountAfter5Years: Double {
+        totalSpent * pow(1.15, 5)
+    }
+
+    // Прибыль (разница между будущей и текущей стоимостью)
+    private var profit: Double {
+        amountAfter5Years - totalSpent
+    }
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -63,17 +96,33 @@ struct ProfitView: View {
 
                 // Список инвестиций
                 VStack {
-                    ForEach(investments) { investment in
-                        InvestmentRowView(investment: investment)
+                    if !purchasedStocks.isEmpty {
+                        ForEach(investments) { investment in
+                            InvestmentRowView(investment: investment)
+                        }
+                    } else {
+                        Text("No shares in portfolio")
+                            .foregroundColor(.gray)
+                            .padding()
                     }
                 }
 
                 Divider()
                 // Итоговая информация
                 VStack(spacing: 12) {
-                    ProfitInfoRow(title: "Was spent", value: "100 000 $")
-                    ProfitInfoRow(title: "Amount after 5 years", value: "250 000 $")
-                    ProfitInfoRow(title: "My profit", value: "150 000 $", isProfit: true)
+                    ProfitInfoRow(
+                        title: "Was spent",
+                        value: String(format: "%.0f $", totalSpent)
+                    )
+                    ProfitInfoRow(
+                        title: "Amount after 5 years",
+                        value: String(format: "%.0f $", amountAfter5Years)
+                    )
+                    ProfitInfoRow(
+                        title: "My profit",
+                        value: String(format: "%.0f $", profit),
+                        isProfit: true
+                    )
                 }
                 Divider()
             }
