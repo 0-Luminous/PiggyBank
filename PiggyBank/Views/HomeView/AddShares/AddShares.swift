@@ -15,6 +15,18 @@ struct AddShares: View {
     @State private var quantities: [UUID: Int16] = [:]
     @State private var searchText = ""
 
+    // Добавляем FetchRequest для кошелька
+    @FetchRequest(
+        entity: WalletEntity.entity(),
+        sortDescriptors: []
+    ) private var wallets: FetchedResults<WalletEntity>
+
+    // Вычисляемое свойство для форматирования баланса
+    private var formattedBalance: String {
+        let balance = wallets.first?.balance ?? 0
+        return String(format: "%.0f $", balance)
+    }
+
     private func fetchStocks() {
         let request = NSFetchRequest<StockEntity>(entityName: "StockEntity")
         request.sortDescriptors = [NSSortDescriptor(keyPath: \StockEntity.name, ascending: true)]
@@ -43,10 +55,34 @@ struct AddShares: View {
     }
 
     private func updateStock(_ stock: StockEntity, quantity: Int) {
-        stock.quantity = Int16(quantity)
-        quantities[stock.id!] = Int16(quantity)
-        persistence.save()
-        fetchStocks()
+        let currentQuantity = Int(stock.quantity)
+        let newQuantity = Int16(quantity)
+
+        // Если количество увеличивается (покупка акций)
+        if newQuantity > currentQuantity {
+            let stockPrice = stock.price
+            let purchaseQuantity = newQuantity - Int16(currentQuantity)
+            let totalCost = Double(purchaseQuantity) * stockPrice
+
+            // Проверяем, достаточно ли средств
+            if let wallet = wallets.first {
+                if wallet.balance >= totalCost {
+                    // Уменьшаем баланс
+                    wallet.balance -= totalCost
+                    // Обновляем количество акций
+                    stock.quantity = newQuantity
+                    quantities[stock.id!] = newQuantity
+                    persistence.save()
+                    fetchStocks()
+                }
+            }
+        } else {
+            // Если продаем акции, просто обновляем количество
+            stock.quantity = newQuantity
+            quantities[stock.id!] = newQuantity
+            persistence.save()
+            fetchStocks()
+        }
     }
 
     private func initializeStocksIfNeeded() {
@@ -109,7 +145,7 @@ struct AddShares: View {
                         Text("Wallet")
                             .foregroundStyle(.gray)
                             .font(.system(size: 16))
-                        Text("15 731 $")
+                        Text(formattedBalance)
                             .font(.nunitoSansBold(32))
                             .foregroundStyle(.white)
                         Divider()

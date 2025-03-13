@@ -7,9 +7,20 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var walletBalance: String = "15 000 $"
     @StateObject private var persistence = PersistenceController.shared
     @State private var searchText: String = ""
+
+    // Добавляем FetchRequest для кошелька
+    @FetchRequest(
+        entity: WalletEntity.entity(),
+        sortDescriptors: []
+    ) private var wallets: FetchedResults<WalletEntity>
+
+    // Вычисляемое свойство для форматирования баланса
+    private var formattedBalance: String {
+        let balance = wallets.first?.balance ?? 0
+        return String(format: "%.0f $", balance)
+    }
 
     @FetchRequest(
         entity: StockEntity.entity(),
@@ -55,7 +66,7 @@ struct HomeView: View {
                                     .foregroundStyle(.gray)
                             }
                         }
-                        Text(walletBalance)
+                        Text(formattedBalance)
                             .font(.nunitoSansBold(32))
 
                         Divider()
