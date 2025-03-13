@@ -146,13 +146,13 @@ struct AddShares: View {
                                         Image(stock.logo ?? "")
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
-                                            .frame(width: 32, height: 32)
+                                            .frame(width: 40, height: 40)
                                             .clipShape(Circle())
                                             .background(Color.white)
                                             .clipShape(Circle())
                                         Text(stock.name ?? "")
                                             .foregroundStyle(.white)
-                                            .font(.system(size: 16))
+                                            .font(.nunitoSans(14))
 
                                         Spacer()
 

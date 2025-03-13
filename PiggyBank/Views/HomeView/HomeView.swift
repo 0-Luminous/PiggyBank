@@ -9,6 +9,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var walletBalance: String = "15 000 $"
     @StateObject private var persistence = PersistenceController.shared
+    @State private var searchText: String = ""
 
     @FetchRequest(
         entity: StockEntity.entity(),
@@ -67,49 +68,81 @@ struct HomeView: View {
                     // Purchased Stocks Section
                     if !purchasedStocks.isEmpty {
                         VStack(alignment: .leading, spacing: 16) {
-                            Text("Your shares")
-                                .font(.nunitoSans(16))
-                                .foregroundStyle(.gray)
-                                .padding(.horizontal, 20)
+                            HStack {
+                                Text("Shares")
+                                    .font(.nunitoSans(16))
+                                    .foregroundStyle(.gray)
+                                Spacer()
+                                NavigationLink {
+                                    AddShares()
+                                        .navigationBarBackButtonHidden(true)
+                                } label: {
+                                    Image("editPen")
+                                        .foregroundStyle(.gray)
+                                }
+                            }
+                            .padding(.horizontal, 20)
 
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 16) {
-                                    ForEach(purchasedStocks) { stock in
-                                        VStack(alignment: .leading, spacing: 8) {
-                                            Image(stock.logo ?? "")
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .frame(width: 32, height: 32)
-                                                .clipShape(Circle())
-                                                .background(Color.white)
-                                                .clipShape(Circle())
+                            // Search field
+                            HStack {
+                                Image(systemName: "magnifyingglass")
+                                    .foregroundStyle(.white)
+                                TextField("", text: $searchText)
+                                    .foregroundStyle(.white)
+                            }
+                            .padding()
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(
+                                        Color(red: 0.282, green: 0.267, blue: 0.267), lineWidth: 1)
+                            )
+                            .padding(.horizontal, 20)
 
-                                            VStack(alignment: .leading, spacing: 4) {
-                                                Text(stock.name ?? "")
-                                                    .font(.system(size: 16))
-                                                    .foregroundStyle(.white)
+                            VStack {
+                                ScrollView(.vertical, showsIndicators: false) {
+                                    VStack(spacing: 0) {
+                                        ForEach(purchasedStocks) { stock in
+                                            VStack(spacing: 0) {
+                                                HStack(spacing: 12) {
+                                                    Image(stock.logo ?? "")
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .frame(width: 40, height: 40)
+                                                        .clipShape(Circle())
+                                                        .background(Color.white)
+                                                        .clipShape(Circle())
 
-                                                Text("\(stock.quantity) шт.")
-                                                    .font(.system(size: 14))
-                                                    .foregroundStyle(.gray)
+                                                    Text(stock.name ?? "")
+                                                        .font(.nunitoSans(14))
+                                                        .foregroundStyle(.white)
 
-                                                Text("\(Int(stock.price)) $")
-                                                    .font(.system(size: 16, weight: .semibold))
-                                                    .foregroundStyle(.white)
+                                                    Spacer()
 
-                                                Text(
-                                                    "+ \(String(format: "%.1f", stock.priceChange))%"
-                                                )
-                                                .font(.system(size: 12))
-                                                .foregroundStyle(.green)
+                                                    VStack(alignment: .trailing, spacing: 4) {
+                                                        Text("\(Int(stock.price)) $")
+                                                            .font(
+                                                                .system(size: 16, weight: .semibold)
+                                                            )
+                                                            .foregroundStyle(.white)
+
+                                                        Text(
+                                                            "+ \(String(format: "%.1f", stock.priceChange))%"
+                                                        )
+                                                        .font(.system(size: 12))
+                                                        .foregroundStyle(.green)
+                                                    }
+                                                }
+                                                .padding(.horizontal, 16)
+                                                .padding(.vertical, 12)
+                                                .frame(maxWidth: .infinity)
+
+                                                Divider()
+                                                    .background(Color.gray.opacity(0.3))
                                             }
                                         }
-                                        .padding(16)
-                                        .background(Color(red: 0.09, green: 0.078, blue: 0.086))
-                                        .cornerRadius(16)
                                     }
+                                    .padding(.horizontal, 20)
                                 }
-                                .padding(.horizontal, 20)
                             }
                         }
                     }
