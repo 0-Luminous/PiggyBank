@@ -21,7 +21,8 @@ struct BankView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 24) {
+        ZStack(alignment: .top) {
+            // Заголовок
             VStack {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color(red: 0.09, green: 0.078, blue: 0.086))
@@ -34,8 +35,10 @@ struct BankView: View {
                             .padding(.leading, 16)
                             .padding(.top, 50)
                     )
+                Spacer()
             }
             .ignoresSafeArea()
+
             // История пополнений
             VStack(alignment: .leading, spacing: 16) {
                 Text("Replenishment history")
@@ -78,6 +81,7 @@ struct BankView: View {
                         .padding(.horizontal)
                 )
             }
+            .padding(.top, 90)
 
             // Настройки копилки
             VStack(alignment: .leading, spacing: 16) {
@@ -86,7 +90,7 @@ struct BankView: View {
                     .font(.nunitoSans(16))
                     .padding(.horizontal)
 
-                HStack(spacing: 16) {
+                HStack {
                     // Минимальная сумма
                     HStack {
                         Text("Min")
@@ -126,7 +130,7 @@ struct BankView: View {
 
                     )
                 }
-                .padding(.horizontal)
+                .padding(.horizontal, 17)
 
                 // Кнопка рандомизации
                 Button(action: {
@@ -141,7 +145,7 @@ struct BankView: View {
                 }
                 .padding(.horizontal)
             }
-
+            .padding(.top, 350)
             Spacer()
         }
         .background(Color(red: 0.145, green: 0.129, blue: 0.129))

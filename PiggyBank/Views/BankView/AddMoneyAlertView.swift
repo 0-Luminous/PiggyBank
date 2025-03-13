@@ -14,9 +14,6 @@ struct AddMoneyAlertView: View {
 
     var body: some View {
         ZStack {
-            Color.black.opacity(0.3)
-                .ignoresSafeArea()
-
             VStack(spacing: 16) {
                 Text("\(amount) $")
                     .font(.system(size: 32))
@@ -47,20 +44,15 @@ struct AddMoneyAlertView: View {
                 }
             }
             .padding(24)
-            .background(Color(red: 0.145, green: 0.129, blue: 0.129))
+            .background(
+                Image("BackgroundFrame")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .ignoresSafeArea()
+            )
             .cornerRadius(24)
             .padding(.horizontal, 16)
         }
     }
 }
 
-// Пример использования:
-struct AddMoneyAlertView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddMoneyAlertView(
-            amount: "43",
-            onCancel: {},
-            onConfirm: {}
-        )
-    }
-}

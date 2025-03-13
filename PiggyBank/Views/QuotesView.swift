@@ -112,15 +112,15 @@ struct QuoteCard: View {
                 Button(action: {
                     // Действие для кнопки share
                 }) {
-                    Image(systemName: "arrow.up.forward")
-                        .foregroundColor(.gray)
+                    Image("share")
+                        .foregroundColor(.white)
                 }
 
                 Button(action: {
                     quote.isSaved.toggle()
                 }) {
-                    Image(systemName: quote.isSaved ? "heart.fill" : "heart")
-                        .foregroundColor(quote.isSaved ? .red : .gray)
+                    Image(systemName: quote.isSaved ? "heart" : "heart")
+                        .foregroundColor(quote.isSaved ? .red : .white)
                 }
             }
             Divider()

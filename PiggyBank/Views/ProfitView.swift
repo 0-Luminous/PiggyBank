@@ -106,13 +106,13 @@ struct InvestmentRowView: View {
                 .font(.nunitoSansBold(14))
         }
         Capsule()
-            .frame(height: 6)
+            .frame(height: 8)
             .frame(width: UIScreen.main.bounds.width - 32)
             .foregroundColor(Color(red: 0.208, green: 0.2, blue: 0.2))
             .overlay(
                 Capsule()
                     .frame(width: width)
-                    .frame(height: 6)
+                    .frame(height: 8)
                     .foregroundStyle(
                         LinearGradient(
                             colors: [
