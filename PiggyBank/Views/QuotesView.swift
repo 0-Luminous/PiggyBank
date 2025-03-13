@@ -7,6 +7,18 @@ struct Quote: Identifiable {
     var isSaved: Bool
 }
 
+// Добавляем структуру для UIActivityViewController
+struct ShareSheet: UIViewControllerRepresentable {
+    let text: String
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        let activityItems = [text]
+        return UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
+}
+
 struct QuotesView: View {
     @State private var todayQuotes = [
         Quote(
@@ -93,9 +105,9 @@ struct QuoteTitle: View {
 }
 struct QuoteCard: View {
     @Binding var quote: Quote
+    @State private var showingShareSheet = false  // Перемещаем сюда
 
     var body: some View {
-
         VStack(alignment: .leading, spacing: 12) {
             Text(quote.text)
                 .foregroundColor(.white)
@@ -110,10 +122,14 @@ struct QuoteCard: View {
                 Spacer()
 
                 Button(action: {
-                    // Действие для кнопки share
+                    showingShareSheet = true
                 }) {
                     Image("share")
                         .foregroundColor(.white)
+                }
+                .sheet(isPresented: $showingShareSheet) {
+                    ShareSheet(text: quote.text)
+                        .presentationDetents([.medium])
                 }
 
                 Button(action: {
