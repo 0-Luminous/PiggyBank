@@ -7,7 +7,7 @@
 
 import CoreData
 
-class PersistenceController {
+class PersistenceController: ObservableObject {
     static let shared = PersistenceController()
 
     @MainActor
@@ -19,11 +19,12 @@ class PersistenceController {
     }()
 
     let container: NSPersistentContainer
-    var viewContext: NSManagedObjectContext { container.viewContext }
+    @Published var viewContext: NSManagedObjectContext
     private var saveObserver: NSObjectProtocol?
 
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "PiggyBank")
+        viewContext = container.viewContext
 
         if inMemory {
             container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")

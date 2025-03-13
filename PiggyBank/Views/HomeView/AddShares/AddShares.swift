@@ -10,19 +10,26 @@ import SwiftUI
 
 struct AddShares: View {
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \StockEntity.name, ascending: true)],
-        animation: .default)
-    private var stocks: FetchedResults<StockEntity>
-
+    @StateObject private var persistence = PersistenceController.shared
+    @State private var stocks: [StockEntity] = []
+    @State private var quantities: [UUID: Int16] = [:]
     @State private var searchText = ""
+
+    private func fetchStocks() {
+        let request = NSFetchRequest<StockEntity>(entityName: "StockEntity")
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \StockEntity.name, ascending: true)]
+
+        do {
+            stocks = try persistence.viewContext.fetch(request)
+        } catch {
+            print("Error fetching stocks: \(error)")
+        }
+    }
 
     private func addStock(
         symbol: String, name: String, logo: String, price: Double, priceChange: Double
     ) {
-        let context = PersistenceController.shared.viewContext
-        let newStock = StockEntity(context: context)
+        let newStock = StockEntity(context: persistence.viewContext)
         newStock.id = UUID()
         newStock.symbol = symbol
         newStock.name = name
@@ -31,39 +38,34 @@ struct AddShares: View {
         newStock.priceChange = priceChange
         newStock.quantity = 0
 
-        PersistenceController.shared.save()
+        persistence.save()
+        fetchStocks()
     }
 
     private func updateStock(_ stock: StockEntity, quantity: Int) {
         stock.quantity = Int16(quantity)
-        PersistenceController.shared.save()
+        quantities[stock.id!] = Int16(quantity)
+        persistence.save()
+        fetchStocks()
     }
 
     private func initializeStocksIfNeeded() {
-        let context = PersistenceController.shared.viewContext
         let fetchRequest: NSFetchRequest<StockEntity> = StockEntity.fetchRequest()
 
         do {
-            let count = try context.count(for: fetchRequest)
+            let count = try persistence.viewContext.count(for: fetchRequest)
             if count == 0 {
-                // Добавляем начальные данные
-                addStock(
-                    symbol: "AAPL", name: "Apple", logo: "brands/apple", price: 2850,
-                    priceChange: 11.2)
-                addStock(
-                    symbol: "AMZN", name: "Amazon", logo: "brands/amazon", price: 2100,
-                    priceChange: 8.6)
-                addStock(
-                    symbol: "YUM", name: "KFC", logo: "brands/kfc", price: 3400, priceChange: 21.5)
-                addStock(
-                    symbol: "RAIF", name: "Raiffeisen", logo: "brands/raiffeisen", price: 3120,
-                    priceChange: 15.3)
-                addStock(
-                    symbol: "GOOGL", name: "Google", logo: "brands/google", price: 996,
-                    priceChange: 6.6)
-                addStock(
-                    symbol: "PEP", name: "Lays", logo: "brands/lays", price: 544, priceChange: 4.5)
+                for stock in MockStocks.stocks {
+                    addStock(
+                        symbol: stock.symbol,
+                        name: stock.name,
+                        logo: stock.logo,
+                        price: stock.price,
+                        priceChange: stock.change
+                    )
+                }
             }
+            fetchStocks()
         } catch {
             print("Error checking for existing stocks: \(error)")
         }
@@ -174,7 +176,7 @@ struct AddShares: View {
                                                     .foregroundStyle(.white)
                                             }
 
-                                            Text("\(stock.quantity)")
+                                            Text("\(quantities[stock.id!] ?? stock.quantity)")
                                                 .foregroundStyle(.white)
                                                 .frame(minWidth: 20)
 

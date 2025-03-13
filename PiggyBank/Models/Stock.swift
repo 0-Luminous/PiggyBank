@@ -1,6 +1,6 @@
 import Foundation
 
-struct Stock: Identifiable {
+struct StockData: Identifiable {
     let id = UUID()
     let symbol: String
     let name: String
