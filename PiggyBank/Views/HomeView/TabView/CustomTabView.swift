@@ -13,16 +13,21 @@ struct CustomTabView: View {
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = UIColor(red: 0.09, green: 0.078, blue: 0.086, alpha: 1.0)
 
-        // Настраиваем цвета для неактивного состояния (серый)
+        // Настраиваем шрифт меньшего размера
+        let font = UIFont.systemFont(ofSize: 10)
+
+        // Неактивное состояние - серый цвет
         appearance.stackedLayoutAppearance.normal.iconColor = UIColor.gray
         appearance.stackedLayoutAppearance.normal.titleTextAttributes = [
-            .foregroundColor: UIColor.gray
+            .foregroundColor: UIColor.gray,
+            .font: font,
         ]
 
-        // Настраиваем цвета для активного состояния (белый)
+        // Активное состояние - белый цвет
         appearance.stackedLayoutAppearance.selected.iconColor = UIColor.white
         appearance.stackedLayoutAppearance.selected.titleTextAttributes = [
-            .foregroundColor: UIColor.white
+            .foregroundColor: UIColor.white,
+            .font: font,
         ]
 
         // Применяем внешний вид для обоих состояний
@@ -71,14 +76,5 @@ struct CustomTabView: View {
         }
         .tint(.white)
         .preferredColorScheme(.dark)
-        .onAppear {
-            // Активируем наше расширение для UITabBarController
-            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                let tabBarController = windowScene.windows.first?.rootViewController
-                    as? UITabBarController
-            {
-                tabBarController.viewWillLayoutSubviews()
-            }
-        }
     }
 }

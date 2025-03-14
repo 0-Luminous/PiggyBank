@@ -115,6 +115,9 @@ struct ProfitView: View {
                         )
                     }
                 }
+                .frame(maxWidth: .infinity)
+                .padding(.top, 8)
+                .padding(.bottom, 16)
 
                 // Список инвестиций
                 VStack {
@@ -171,41 +174,43 @@ struct InvestmentRowView: View {
     @State private var width: CGFloat = 0
 
     var body: some View {
-        HStack {
-            Text(investment.name)
-                .foregroundColor(.white)
-                .font(.nunitoSans(14))
-            Spacer()
-            Text("\(investment.percentage)%")
-                .foregroundColor(.white)
-                .font(.nunitoSansBold(14))
-        }
-        Capsule()
-            .frame(height: 8)
-            .frame(width: UIScreen.main.bounds.width - 32)
-            .foregroundColor(Color(red: 0.208, green: 0.2, blue: 0.2))
-            .overlay(
-                Capsule()
-                    .frame(width: width)
-                    .frame(height: 8)
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [
-                                Color(red: 0.2, green: 0.7, blue: 0.2),
-                                Color(red: 0.15, green: 0.5, blue: 0.15),
-                            ],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    ),
-                alignment: .leading
-            )
-            .padding(.bottom, 8)
-            .onAppear {
-                withAnimation(.easeOut(duration: 1.0)) {
-                    width = (UIScreen.main.bounds.width - 32) * CGFloat(investment.percentage) / 100
-                }
+        VStack(spacing: 4) {
+            HStack {
+                Text(investment.name)
+                    .foregroundColor(.white)
+                    .font(.nunitoSans(14))
+                Spacer()
+                Text("\(investment.percentage)%")
+                    .foregroundColor(.white)
+                    .font(.nunitoSansBold(14))
             }
+            Capsule()
+                .frame(height: 8)
+                .frame(width: UIScreen.main.bounds.width - 32)
+                .foregroundColor(Color(red: 0.208, green: 0.2, blue: 0.2))
+                .overlay(
+                    Capsule()
+                        .frame(width: width)
+                        .frame(height: 8)
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [
+                                    Color(red: 0.2, green: 0.7, blue: 0.2),
+                                    Color(red: 0.15, green: 0.5, blue: 0.15),
+                                ],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        ),
+                    alignment: .leading
+                )
+                .padding(.bottom, 8)
+                .onAppear {
+                    withAnimation(.easeOut(duration: 1.0)) {
+                        width = (UIScreen.main.bounds.width - 32) * CGFloat(investment.percentage) / 100
+                    }
+                }
+        }
     }
 }
 
@@ -235,16 +240,17 @@ struct PeriodButton: View {
     var body: some View {
         Button(action: action) {
             Text(text)
-                .padding(.vertical, 8)
-                .padding(.horizontal, 13.25)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(
-                            isSelected ? Color.white : Color(red: 0.208, green: 0.2, blue: 0.2),
-                            lineWidth: isSelected ? 2 : 1)
-                )
+                .font(.nunitoSans(14))
         }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 8)
         .foregroundColor(.white)
         .animation(.easeInOut(duration: 0.2), value: isSelected)
+        .overlay(
+            RoundedRectangle(cornerRadius: 8)
+                .stroke(
+                    isSelected ? Color.white : Color(red: 0.208, green: 0.2, blue: 0.2),
+                    lineWidth: isSelected ? 2 : 1)
+        )
     }
 }

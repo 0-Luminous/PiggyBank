@@ -55,8 +55,28 @@ struct AddShares: View {
     }
 
     private func updateStock(_ stock: StockEntity, quantity: Int) {
+        // Получаем текущий кошелек
+        guard let wallet = wallets.first else { return }
+
+        // Вычисляем разницу в количестве акций
+        let quantityDifference = quantity - Int(stock.quantity)
+
+        // Вычисляем стоимость изменения
+        let costChange = Double(quantityDifference) * stock.price
+
+        // Проверяем, достаточно ли средств для покупки
+        if quantityDifference > 0 && wallet.balance < costChange {
+            // Недостаточно средств для покупки
+            return
+        }
+
+        // Обновляем баланс кошелька
+        wallet.balance -= costChange
+
+        // Обновляем количество акций
         stock.quantity = Int16(quantity)
         quantities[stock.id!] = Int16(quantity)
+
         persistence.save()
         fetchStocks()
     }
@@ -193,8 +213,13 @@ struct AddShares: View {
                                                 .frame(minWidth: 20)
 
                                             Button(action: {
-                                                updateStock(
-                                                    stock, quantity: Int(stock.quantity) + 1)
+                                                // Проверяем, хватает ли денег на покупку
+                                                if let wallet = wallets.first,
+                                                    wallet.balance >= stock.price
+                                                {
+                                                    updateStock(
+                                                        stock, quantity: Int(stock.quantity) + 1)
+                                                }
                                             }) {
                                                 Image(systemName: "plus")
                                                     .foregroundStyle(.white)
@@ -240,7 +265,8 @@ struct AddShares: View {
                     }
                     .padding()
                 }
-                .padding(.top, 120)
+                .padding(.top, 132)
+                .ignoresSafeArea()
             }
             .onAppear {
                 initializeStocksIfNeeded()

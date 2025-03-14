@@ -42,8 +42,15 @@ struct WalletView: View {
                 wallet = WalletEntity(context: context)
             }
 
-            let cleanBalance = balance.replacingOccurrences(of: " ", with: "")
-            wallet.balance = Double(cleanBalance) ?? 0
+            let cleanBalance =
+                balance
+                .replacingOccurrences(of: " ", with: "")
+                .replacingOccurrences(of: ",", with: ".")
+
+            if !cleanBalance.isEmpty {
+                wallet.balance = Double(cleanBalance) ?? 0
+            }
+
             persistence.save()
         } catch {
             print("Error saving wallet: \(error)")

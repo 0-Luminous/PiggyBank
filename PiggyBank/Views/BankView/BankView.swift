@@ -130,15 +130,14 @@ struct BankView: View {
                             Text("$")
                                 .foregroundColor(.gray)
                         }
+                        .frame(maxWidth: .infinity)
                         .padding(.horizontal, 16)
-                        .padding(.vertical, 12)
-                        .background(Color(red: 0.145, green: 0.129, blue: 0.129))
-                        .cornerRadius(16)
+                        .padding(.vertical, 16)
+                        .background(.white.opacity(0))
                         .overlay(
                             RoundedRectangle(cornerRadius: 16)
                                 .stroke(Color(red: 0.282, green: 0.267, blue: 0.267), lineWidth: 1)
                         )
-                        .frame(maxWidth: .infinity)
 
                         // Максимальная сумма
                         HStack {
@@ -158,17 +157,17 @@ struct BankView: View {
                             Text("$")
                                 .foregroundColor(.gray)
                         }
+                        .frame(maxWidth: .infinity)
                         .padding(.horizontal, 16)
-                        .padding(.vertical, 12)
-                        .background(Color(red: 0.145, green: 0.129, blue: 0.129))
-                        .cornerRadius(16)
+                        .padding(.vertical, 16)
+                        .background(.white.opacity(0))
                         .overlay(
                             RoundedRectangle(cornerRadius: 16)
                                 .stroke(Color(red: 0.282, green: 0.267, blue: 0.267), lineWidth: 1)
                         )
-                        .frame(maxWidth: .infinity)
                     }
                     .padding(.horizontal)
+                    .padding(.bottom, 8)
 
                     // Кнопка рандомизации/готово
                     Button(action: {
